@@ -72,4 +72,4 @@ const addAccount = (infoArr) => {
     return true;
 }
 
-export default {generateUniqueID, accountDetails}
+export default {generateUniqueID, addAccount}
