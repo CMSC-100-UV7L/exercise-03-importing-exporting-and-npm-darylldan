@@ -58,7 +58,7 @@ const addAccount = (infoArr) => {
     // Appends the string that contains user details to a users.txt
     let fd;
     try {
-        fd = openSync('users.txt', 'a');
+        fd = openSync('./users.txt', 'a');
         appendFileSync(fd, accountDetails + "\n", 'utf-8');
     } catch (err) {
         console.log("Error writing to file 'users.txt'. Account not saved.");
@@ -71,3 +71,5 @@ const addAccount = (infoArr) => {
 
     return true;
 }
+
+export default {generateUniqueID, accountDetails}
