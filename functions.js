@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import validator from 'validator';
+import { openSync, closeSync, appendFileSync } from 'node:fs'
 
 const generateUniqueID = (fName, lName) => {
     return fName.charAt(0).toLowerCase() + lName.toLowerCase() + uuidv4().substring(0, 8);
@@ -32,8 +33,25 @@ const addAccount = (infoArr) => {
         return false;
     }
 
+    let accountDetails = "";
+    for(let i = 0; i < infoArr.length; i++) {
+        accountDetails = accountDetails + infoArr[i] + ",";
+    }
+
+    accountDetails += generateUniqueID(infoArr[0], infoArr[1]);
+
+    let fd;
+    try {
+        fd = openSync('users.txt', 'a');
+        appendFileSync(fd, accountDetails + "\n", 'utf-8');
+    } catch (err) {
+        console.log("Error writing to file 'users.txt'. Account not saved.");
+        return false;
+    } finally {
+        if (fd !== undefined) {
+            closeSync(fd);
+        }
+    }
+
     return true;
 }
-
-console.log(generateUniqueID("Alan", "Turing"))
-console.log(addAccount(["Alan", "Turing", "aturing@w3c.com", 58]));
